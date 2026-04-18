@@ -5,6 +5,13 @@
 // The default power supply voltage set by the program is 12V.
 // Please remember to modify the values in voltage_power_supply and voltage_limit variables if you use other voltages for power supply
 
+#define SIMPLEFOC_DISABLE_ATMEGA2560_MCU_WARNING 
+/* 
+eliminate warnning of below :
+ "note: #pragma message: SimpleFOC: compiling for Arduino/ATmega2560 or Arduino/ATmega1280
+ #pragma message("SimpleFOC: compiling for Arduino/ATmega2560 or Arduino/ATmega1280")"
+*/
+
 #include <SimpleFOC.h>
 
 BLDCMotor motor = BLDCMotor(7);         //According to the selected motor, modify the value in BLDCMotor()
