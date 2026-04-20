@@ -12,15 +12,18 @@ eliminate warnning of below :
  #pragma message("SimpleFOC: compiling for Arduino/ATmega2560 or Arduino/ATmega1280")"
  */
  
+#define EN  2  // 驱动器使能
+#define IN1 3  // U相 (PWM支持)
+#define IN2 4  // V相 
+#define IN3 5  // W相 (PWM支持)
+
+#define  NumPolePairs 2 //12个定子线圈
+
 #include <SimpleFOC.h>
 
-BLDCMotor motor = BLDCMotor(7);                               //According to the selected motor, modify the number of pole pairs here, the value in BLDCMotor()
-BLDCDriver3PWM driver = BLDCDriver3PWM(32,33,25,22);
-  
-/// BLDC motor & driver instance
-BLDCMotor motor1 = BLDCMotor(7);                              //Also modify the value in BLDCMotor() here
-BLDCDriver3PWM driver1  = BLDCDriver3PWM(26,27,14,21);
-
+BLDCMotor motor = BLDCMotor(NumPolePairs);                               //According to the selected motor, modify the number of pole pairs here, the value in BLDCMotor()
+BLDCDriver3PWM driver = BLDCDriver3PWM(IN1,IN2,IN3,EN);
+ 
 /// Target Variable
 float target_velocity = 5;
 
@@ -30,28 +33,17 @@ void doTarget(char* cmd) { command.scalar(&target_velocity, cmd); }
 
 void setup() {
   
-
-  driver.voltage_power_supply = 12;                   //According to the supply voltage, modify the value of voltage_power_supply here
+  driver.voltage_power_supply = 9;                   //According to the supply voltage, modify the value of voltage_power_supply here
   driver.init();
   motor.linkDriver(&driver);
-  motor.voltage_limit = 3;   // [V]                   //According to the supply voltage, modify the value of voltage_limit here
-  motor.velocity_limit = 40; // [rad/s]
-  
-  driver1.voltage_power_supply = 12;                  //Also modify the value of voltage_power_supply here
-  driver1.init();
-  motor1.linkDriver(&driver1);
-  motor1.voltage_limit = 3;   // [V]                  //Also modify the value of voltage_limit here
-  motor1.velocity_limit = 40; // [rad/s]
-
- 
+  motor.voltage_limit = driver.voltage_power_supply;   // [V]                   //According to the supply voltage, modify the value of voltage_limit here
+  motor.velocity_limit = 160; // [rad/s]
+   
   // Open Loop Control Mode Setting
   motor.controller = MotionControlType::velocity_openloop;
-  motor1.controller = MotionControlType::velocity_openloop;
-
+  
   // Initialize the Hardware
   motor.init();
-  motor1.init();
-
 
   // Add T Command
   // Enter "T+number" in the serial port to set the speed of the two motors.For example, to set the motor to rotate at a speed of 10rad/s, input "T10".
@@ -65,8 +57,7 @@ void setup() {
 
 void loop() {
   motor.move(target_velocity);                    //When the motor is powered on, it will rotate at 5rad/s by default
-  motor1.move(target_velocity);
-
+  
   //User Newsletter
   command.run();
 }
