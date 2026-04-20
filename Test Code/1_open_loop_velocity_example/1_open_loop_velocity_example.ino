@@ -33,7 +33,7 @@ void doTarget(char* cmd) { command.scalar(&target_velocity, cmd); }
 
 void setup() {
   
-  driver.voltage_power_supply = 9;                   //According to the supply voltage, modify the value of voltage_power_supply here
+  driver.voltage_power_supply = 12 ; //24 ;                   //According to the supply voltage, modify the value of voltage_power_supply here
   driver.init();
   motor.linkDriver(&driver);
   motor.voltage_limit = driver.voltage_power_supply;   // [V]                   //According to the supply voltage, modify the value of voltage_limit here
