@@ -5,17 +5,17 @@
 /// The default power supply voltage of the program is 12V.
 /// Please remember to modify the voltage_power_supply , voltage_limit variable values when using other voltages for power supply
 
-#define SIMPLEFOC_DISABLE_ATMEGA2560_MCU_WARNING 
+//#define SIMPLEFOC_DISABLE_ATMEGA2560_MCU_WARNING 
 /* 
 eliminate warnning of below :
  "note: #pragma message: SimpleFOC: compiling for Arduino/ATmega2560 or Arduino/ATmega1280
  #pragma message("SimpleFOC: compiling for Arduino/ATmega2560 or Arduino/ATmega1280")"
  */
  
-#define EN  2  // 驱动器使能
-#define IN1 3  // U相 (PWM支持)
-#define IN2 4  // V相 
-#define IN3 5  // W相 (PWM支持)
+#define EN  22  // 驱动器使能
+#define IN1 32  // U相 (PWM支持)
+#define IN2 33  // V相 
+#define IN3 25  // W相 (PWM支持)
 
 #define  NumPolePairs 2 //12个定子线圈
 
@@ -23,7 +23,7 @@ eliminate warnning of below :
 
 BLDCMotor motor = BLDCMotor(NumPolePairs);                               //According to the selected motor, modify the number of pole pairs here, the value in BLDCMotor()
 BLDCDriver3PWM driver = BLDCDriver3PWM(IN1,IN2,IN3,EN);
- 
+
 /// Target Variable
 float target_velocity = 5;
 
