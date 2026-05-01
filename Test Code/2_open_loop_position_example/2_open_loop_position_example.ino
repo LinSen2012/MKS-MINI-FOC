@@ -5,7 +5,7 @@
 // The default power supply voltage set by the program is 12V.
 // Please remember to modify the values in voltage_power_supply and voltage_limit variables if you use other voltages for power supply
 
-#define SIMPLEFOC_DISABLE_ATMEGA2560_MCU_WARNING 
+//#define SIMPLEFOC_DISABLE_ATMEGA2560_MCU_WARNING 
 /* 
 eliminate warnning of below :
  "note: #pragma message: SimpleFOC: compiling for Arduino/ATmega2560 or Arduino/ATmega1280
@@ -16,9 +16,11 @@ eliminate warnning of below :
 
 BLDCMotor motor = BLDCMotor(7);         //According to the selected motor, modify the value in BLDCMotor()
 BLDCDriver3PWM driver = BLDCDriver3PWM(32, 33, 25, 22);
+//driver.useMcpwmDriver();  // 强制使用MCPWM
 
 BLDCMotor motor1 = BLDCMotor(7);        //Also modify the value of pole logarithm here
 BLDCDriver3PWM driver1 = BLDCDriver3PWM(26, 27, 14, 21);
+//driver1.useMcpwmDriver();  // 强制使用MCPWM
 
 //Target Variable
 float target_velocity = 0;
