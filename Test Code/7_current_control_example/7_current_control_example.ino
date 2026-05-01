@@ -28,8 +28,8 @@ TwoWire I2Ctwo = TwoWire(1);
 
 
 // Current Detection Setting
-InlineCurrentSense current_sense1 = InlineCurrentSense(0.01, 50.0, 39, 36);
-InlineCurrentSense current_sense2 = InlineCurrentSense(0.01, 50.0, 35, 34);
+InlineCurrentSense current_sense1 = InlineCurrentSense(0.01, 50.0, 39, 36, NOT_SET);
+InlineCurrentSense current_sense2 = InlineCurrentSense(0.01, 50.0, 35, 34, NOT_SET);
 
 // Commander command Setting 
 Commander command = Commander(Serial);
