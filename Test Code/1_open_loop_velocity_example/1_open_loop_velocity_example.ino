@@ -11,28 +11,24 @@ eliminate warnning of below :
  "note: #pragma message: SimpleFOC: compiling for Arduino/ATmega2560 or Arduino/ATmega1280
  #pragma message("SimpleFOC: compiling for Arduino/ATmega2560 or Arduino/ATmega1280")"
  */
- 
+  // 在Arduino代码中添加检查
+#include <esp_idf_version.h>
 #define EN  22  // 驱动器使能
 #define IN1 32  // U相 (PWM支持)
 #define IN2 33  // V相 
 #define IN3 25  // W相 (PWM支持)
-
 #define  NumPolePairs 2 //12个定子线圈
-
 #include <SimpleFOC.h>
-
 BLDCMotor motor = BLDCMotor(NumPolePairs);                               //According to the selected motor, modify the number of pole pairs here, the value in BLDCMotor()
 BLDCDriver3PWM driver = BLDCDriver3PWM(IN1,IN2,IN3,EN);
-
 /// Target Variable
 float target_velocity = 5;
-
 /// Serial Command Setting
 Commander command = Commander(Serial);
 void doTarget(char* cmd) { command.scalar(&target_velocity, cmd); }
-
-void setup() {
-  
+void setup() {  
+  Serial.begin(115200);  
+  Serial.printf("ESP-IDF Version: %s\n", esp_get_idf_version());
   driver.voltage_power_supply = 12 ; //24 ;                   //According to the supply voltage, modify the value of voltage_power_supply here
   driver.init();
   motor.linkDriver(&driver);
@@ -49,7 +45,9 @@ void setup() {
   // Enter "T+number" in the serial port to set the speed of the two motors.For example, to set the motor to rotate at a speed of 10rad/s, input "T10".
   command.add('T', doTarget, "target velocity");
 
-  Serial.begin(115200);
+
+
+  // 输出应为v5.x格式
   Serial.println("Motor ready!");
   Serial.println("Set target velocity [rad/s]");
   _delay(1000);
