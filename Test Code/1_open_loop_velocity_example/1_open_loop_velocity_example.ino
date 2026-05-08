@@ -72,14 +72,14 @@ void setup() {
    // 输出高电平
   digitalWrite(OUT_PIN, HIGH);
   
-  // 微秒延时：50 微秒（10μs）
-  delayMicroseconds(50);
+  // 微秒延时：20 微秒
+  delayMicroseconds(20);
 
   // 输出低电平
   digitalWrite(OUT_PIN, LOW);
   
-  // 微秒延时：50 微秒
-  delayMicroseconds(50);
+  // 微秒延时：20 微秒
+  delayMicroseconds(20);
   }
 
 }
