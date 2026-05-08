@@ -43,8 +43,11 @@ void setup() {
 
   Serial.begin(115200);  
   Serial.printf("ESP-IDF Version: %s\n", esp_get_idf_version());
+
   driver.voltage_power_supply = 12 ; //24 ;                   //According to the supply voltage, modify the value of voltage_power_supply here
   driver.init();
+
+#if 0
   motor.linkDriver(&driver);
   motor.voltage_limit = driver.voltage_power_supply;   // [V]                   //According to the supply voltage, modify the value of voltage_limit here
   motor.velocity_limit = 160; // [rad/s]
@@ -55,9 +58,11 @@ void setup() {
   // Initialize the Hardware
   motor.init();
 
+#endif
+
   // Add T Command
   // Enter "T+number" in the serial port to set the speed of the two motors.For example, to set the motor to rotate at a speed of 10rad/s, input "T10".
-  command.add('T', doTarget, "target velocity");
+//  command.add('T', doTarget, "target velocity");
 
   // 输出应为v5.x格式
   Serial.println("Motor ready!");
@@ -67,11 +72,12 @@ void setup() {
 }
 
 void loop() {
+#if 0
   motor.move(target_velocity);                    //When the motor is powered on, it will rotate at 5rad/s by default
   
   //User Newsletter
   command.run();
-
+#endif
    // 输出高电平
   digitalWrite(OUT_PIN, HIGH);
   
