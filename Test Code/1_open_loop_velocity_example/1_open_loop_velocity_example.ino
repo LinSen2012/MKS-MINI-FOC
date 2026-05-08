@@ -25,11 +25,8 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(IN1,IN2,IN3,EN);
 /// Target Variable
 float target_velocity = 5;
 
-
 // 定义引脚
-#define OUT_PIN 26
-
-
+#define OUT_PIN 32
 
 /// Serial Command Setting
 Commander command = Commander(Serial);
@@ -67,21 +64,6 @@ void setup() {
 // 设置 GPIO2 为输出模式
   pinMode(OUT_PIN, OUTPUT);
 
-  for(int k=0;k<100;k++)
-  {
-   // 输出高电平
-  digitalWrite(OUT_PIN, HIGH);
-  
-  // 微秒延时：5 微秒,实测5.8-6.2us脉冲宽度
-  delayMicroseconds(5);
-
-  // 输出低电平
-  digitalWrite(OUT_PIN, LOW);
-  
-  // 微秒延时：5 微秒
-  delayMicroseconds(5);
-  }
-
 }
 
 void loop() {
@@ -89,4 +71,18 @@ void loop() {
   
   //User Newsletter
   command.run();
+
+   // 输出高电平
+  digitalWrite(OUT_PIN, HIGH);
+  
+  // 微秒延时：5 微秒
+  delayMicroseconds(5);
+
+  // 输出低电平
+  digitalWrite(OUT_PIN, LOW);
+  
+  // 微秒延时：5 微秒
+  delayMicroseconds(5);
+
+
 }
