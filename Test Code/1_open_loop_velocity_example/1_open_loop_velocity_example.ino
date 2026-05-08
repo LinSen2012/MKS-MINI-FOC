@@ -38,6 +38,9 @@ void doTarget(char* cmd)
 
 void setup() {  
 
+// 设置 GPIO2 为输出模式
+  pinMode(OUT_PIN, OUTPUT);
+
   Serial.begin(115200);  
   Serial.printf("ESP-IDF Version: %s\n", esp_get_idf_version());
   driver.voltage_power_supply = 12 ; //24 ;                   //According to the supply voltage, modify the value of voltage_power_supply here
@@ -60,9 +63,6 @@ void setup() {
   Serial.println("Motor ready!");
   Serial.println("Set target velocity [rad/s]");
   _delay(1000);
-
-// 设置 GPIO2 为输出模式
-  pinMode(OUT_PIN, OUTPUT);
 
 }
 
