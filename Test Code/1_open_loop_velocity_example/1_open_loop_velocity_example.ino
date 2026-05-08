@@ -44,10 +44,10 @@ void setup() {
   Serial.begin(115200);  
   Serial.printf("ESP-IDF Version: %s\n", esp_get_idf_version());
 
+#if 0
   driver.voltage_power_supply = 12 ; //24 ;                   //According to the supply voltage, modify the value of voltage_power_supply here
   driver.init();
 
-#if 0
   motor.linkDriver(&driver);
   motor.voltage_limit = driver.voltage_power_supply;   // [V]                   //According to the supply voltage, modify the value of voltage_limit here
   motor.velocity_limit = 160; // [rad/s]
