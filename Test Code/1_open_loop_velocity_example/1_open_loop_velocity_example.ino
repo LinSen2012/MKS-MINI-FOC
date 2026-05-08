@@ -11,6 +11,7 @@ eliminate warnning of below :
  "note: #pragma message: SimpleFOC: compiling for Arduino/ATmega2560 or Arduino/ATmega1280
  #pragma message("SimpleFOC: compiling for Arduino/ATmega2560 or Arduino/ATmega1280")"
  */
+
   // 在Arduino代码中添加检查
 #include <esp_idf_version.h>
 #define EN  22  // 驱动器使能
@@ -23,10 +24,23 @@ BLDCMotor motor = BLDCMotor(NumPolePairs);                               //Accor
 BLDCDriver3PWM driver = BLDCDriver3PWM(IN1,IN2,IN3,EN);
 /// Target Variable
 float target_velocity = 5;
+
+
+// 定义引脚
+#define OUT_PIN 26
+
+
+
 /// Serial Command Setting
 Commander command = Commander(Serial);
-void doTarget(char* cmd) { command.scalar(&target_velocity, cmd); }
+
+void doTarget(char* cmd) 
+{ 
+  command.scalar(&target_velocity, cmd); 
+}
+
 void setup() {  
+
   Serial.begin(115200);  
   Serial.printf("ESP-IDF Version: %s\n", esp_get_idf_version());
   driver.voltage_power_supply = 12 ; //24 ;                   //According to the supply voltage, modify the value of voltage_power_supply here
@@ -45,12 +59,29 @@ void setup() {
   // Enter "T+number" in the serial port to set the speed of the two motors.For example, to set the motor to rotate at a speed of 10rad/s, input "T10".
   command.add('T', doTarget, "target velocity");
 
-
-
   // 输出应为v5.x格式
   Serial.println("Motor ready!");
   Serial.println("Set target velocity [rad/s]");
   _delay(1000);
+
+// 设置 GPIO2 为输出模式
+  pinMode(OUT_PIN, OUTPUT);
+
+  for(int k=0;k<100;k++)
+  {
+   // 输出高电平
+  digitalWrite(OUT_PIN, HIGH);
+  
+  // 微秒延时：50 微秒（10μs）
+  delayMicroseconds(50);
+
+  // 输出低电平
+  digitalWrite(OUT_PIN, LOW);
+  
+  // 微秒延时：50 微秒
+  delayMicroseconds(50);
+  }
+
 }
 
 void loop() {
